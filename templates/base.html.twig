@@ -1,12 +1,68 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+<html lang="zh-CN">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>{% block title %}{% endblock %}</title>
+
+    {% block styles %}
+        <!-- tabler core CSS -->
+        <link href="{{ asset('teebb/vendor/tabler/css/tabler.min.css') }}" rel="stylesheet">
+
+        <!-- teebb core CSS -->
+        <link href="{{ asset('teebb/assets/css/style.css') }}" rel="stylesheet">
+    {% endblock %}
+</head>
+
+<body>
+{% include 'header.html.twig' %}
+
+{% block breadcrumb %}
+{% endblock %}
+{% block list_page_title %}
+{% endblock %}
+
+{% block common_banner %}
+    <section id="indexBanner" class="common-banner">
+
+        {% block banner_content %}
+
+        {% endblock %}
+
+        <svg class="bg-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1920px"
+             height="1080px" viewBox="0 0 1920 1080">
+            <image id="bg" width="1920" height="1080" xlink:href="teebb/assets/images/bg-svg.png"/>
+        </svg>
+    </section>
+{% endblock %}
+
+{% block content %}
+
+{% endblock %}
+
+{% include 'float_contact.html.twig' %}
+
+{% include 'footer.html.twig' %}
+
+{% block javascripts %}
+    <!-- jquery core JavaScript -->
+    <script src="{{ asset('teebb/vendor/jquery/jquery.min.js') }}"></script>
+
+    <!-- bootstrap core JavaScript -->
+    <script src="{{ asset('teebb/vendor/tabler/libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
+
+    <!-- tabler core JavaScript -->
+    <script src="{{ asset('teebb/vendor/tabler/js/tabler.min.js') }}"></script>
+    {% block extra_javascripts %}
+    {% endblock %}
+    <!-- teebb core JavaScript -->
+    <script src="{{ asset('teebb/assets/js/teebb.js') }}"></script>
+{% endblock %}
+</body>
+
 </html>
