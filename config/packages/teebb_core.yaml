@@ -8,7 +8,6 @@ teebb_core:
         address: sender@quanweiwei.cn
         address_name: TEEBB.COM管理员
 
-
     fly_system:
         service: '%fly_system_service%'
         #此变量用于生成上传文件的链接
