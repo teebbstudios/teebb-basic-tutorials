@@ -6,7 +6,7 @@
             <div class="skeleton-image"></div>
             <div class="card-body">
                 <h2 class="h4 mb-0">
-                    <a href="#" class="text-black">{{ content.title }}</a>
+                    <a href="{{ path('teebb_content_show', {slug: content.slug}) }}" class="text-black">{{ content.title }}</a>
                 </h2>
                 <div class="author-category py-3 d-flex align-items-center">
                     <div class="blog-time mr-3">
@@ -16,11 +16,6 @@
                         <a href="#" class="d-flex align-items-center text-secondary p-0">
                             {{ content.author.username }}
                         </a>
-                    </div>
-                    <div class="blog-cate mr-3">
-                        <a href="#" class="teebb-bg text-secondary badge bg-light small">分类</a>
-                        <a href="#" class="teebb-bg text-secondary badge bg-light small">分类</a>
-                        <a href="#" class="teebb-bg text-secondary badge bg-light small">分类</a>
                     </div>
                 </div>
                 <p>
