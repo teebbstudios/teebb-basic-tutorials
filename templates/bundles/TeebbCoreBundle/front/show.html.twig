@@ -1,0 +1,71 @@
+{% set bundle = entity_type.bundle %}
+{% import '@TeebbCore/macros.html.twig' as macro %}
+
+{% extends 'base.html.twig' %}
+
+{% block banner_content %}
+    <div class="container">
+        <div class="row pt-5 pb-5 justify-content-center">
+            <div class="bg-white border-0 rounded-5">
+                <div class="row">
+                    <div class="d-none d-md-block col-md-2 text-center py-5">
+                        <time datetime="{{ subject.createdAt|date('Y-m-d H:i:s') }}">
+                            <span class="second-title mb-0 text-secondary font-weight-bold d-block">{{ subject.createdAt|date('m/d') }}</span>
+                            <span class="text-secondary d-block">{{ subject.createdAt|date('Y') }}</span>
+                        </time>
+                        {% if subject.boolTop %}
+                        <span class="badge bg-red small">TOP</span>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-10 pr-md-5">
+                        <div class="author-category py-3 d-flex align-items-center">
+                            <div class="blog-time d-md-none mr-3">
+                                {% if subject.boolTop %}
+                                <span class="badge bg-red small">TOP</span>
+                                {% endif %}
+                                <span class="text-secondary">{{ subject.createdAt|date('Y-m-d') }}</span>
+                            </div>
+                            <div class="author mr-3">
+                                <a href="#" class="d-flex align-items-center text-secondary p-0">
+                                    {{ macro.getAvatar(subject.author, 'avatar-sm mr-2') }}
+                                    {{ subject.author.username }}
+                                </a>
+                            </div>
+                        </div>
+
+                        <h1 class="second-title mb-0">
+                            <a href="#" class="text-black">{{ subject.title }}</a>
+                        </h1>
+
+                        <div class="blog-content pt-4 col-md-10">
+                            <div class="col-12">
+                                {{ macro.showContentAllFieldsData(subject, bundle, subject.typeAlias) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row py-4">
+            <h3 class="second-title text-center">更多文章</h3>
+        </div>
+        <div class="row pb-5">
+            {{ sonata_block_render({ 'type': 'teebb.core.block.contents' }, {
+                'limit': 3,
+                'template': 'blocks/more_contents.html.twig',
+                'criteria': { typeAlias: subject.typeAlias },
+                'order': {createdAt: 'DESC'},
+                'exclude': {id: subject.id}
+            }) }}
+        </div>
+    </div>
+{% endblock %}
+
+
+

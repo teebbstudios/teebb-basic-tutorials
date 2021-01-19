@@ -1,0 +1,34 @@
+{% import '@TeebbCore/macros.html.twig' as macro %}
+
+{% for content in contents %}
+    <div class="col-md-4">
+        <div class="card">
+            <div class="skeleton-image"></div>
+            <div class="card-body">
+                <h2 class="h4 mb-0">
+                    <a href="#" class="text-black">{{ content.title }}</a>
+                </h2>
+                <div class="author-category py-3 d-flex align-items-center">
+                    <div class="blog-time mr-3">
+                        <span class="text-secondary">{{ content.createdAt|date('Y-m-d') }}</span>
+                    </div>
+                    <div class="author mr-3">
+                        <a href="#" class="d-flex align-items-center text-secondary p-0">
+                            {{ content.author.username }}
+                        </a>
+                    </div>
+                    <div class="blog-cate mr-3">
+                        <a href="#" class="teebb-bg text-secondary badge bg-light small">分类</a>
+                        <a href="#" class="teebb-bg text-secondary badge bg-light small">分类</a>
+                        <a href="#" class="teebb-bg text-secondary badge bg-light small">分类</a>
+                    </div>
+                </div>
+                <p>
+                    {{ macro.getContentSummary(content, 'content', content.typeAlias) }}
+                </p>
+            </div>
+        </div>
+    </div>
+{% else %}
+    {{ 'It is empty'|trans }}
+{% endfor %}
