@@ -1,0 +1,202 @@
+{% set bundle = entity_type.bundle %}
+{% import '@TeebbCore/macros.html.twig' as macro %}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ type.label }}
+{% endblock %}
+
+{% block list_page_title %}
+    <section id="topTitle" class="bg-light">
+        <div class="container text-center">
+            <div class="row pt-4">
+                <div class="col-12">
+                    <h1 class="font-weight-bold normal-title text-muted">
+                        {{ type.label }}
+                    </h1>
+                </div>
+            </div>
+            <div class="row pb-4">
+                <div class="col-12">
+                    <p class="lead text-muted font-weight-normal">
+                        “不作恶 爱成长”
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block content %}
+    <section id="blogList">
+        <div class="container">
+            <div class="row py-5 justify-content-between">
+
+                <div class="col-md-8 pr-lg-4">
+                    {% for content in paginator %}
+                        <div class="card border-0 mb-4">
+                            {% set postImages = get_specify_type_field(content, 'content', content.typeAlias, 'referenceImage') %}
+
+                            {% for imageFieldData in postImages %}
+                                {% if loop.first %}
+                                    {% if imageFieldData[0].value %}
+                                        <a href="{{ path('teebb_content_show', {slug: content.slug}) }}">
+                                            {% set imagePath = imageFieldData[0].value.filePath %}
+                                            <img src={{ imagePath|imagine_filter('list_poster') }} alt="{{ content.title }}">
+                                        </a>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+
+                            <div class="blog-summary row p-4">
+                                <div class="col-2 text-center">
+                                    <time datetime="{{ content.createdAt|date('Y-m-d H:i:s') }}">
+                                        <span class="second-title mb-0 text-secondary font-weight-bold d-block">{{ content.createdAt|date('m/d') }}</span>
+                                        <span class="text-secondary d-block">{{ content.createdAt|date('Y') }}</span>
+                                    </time>
+                                    {% if content.boolTop %}
+                                    <span class="badge bg-red small">TOP</span>
+                                    {% endif %}
+                                </div>
+                                <div class="col align-items-center">
+                                    <h2 class="second-title mb-0">
+                                        <a href="#" class="text-black">{{ content.title }}</a>
+                                    </h2>
+                                    <div class="author-category py-2 d-flex justify-content-between align-items-center">
+                                        <div class="author">
+                                            <a href="#" class="d-flex align-items-center text-secondary p-0">
+                                            {{ macro.getAvatar(content.author, 'avatar-sm mr-2') }}
+                                                By {{ content.author.username }}
+                                            </a>
+                                        </div>
+                                        <div class="blog-cate">
+                                            {% set tagsFields = get_specify_type_field(content, 'content', content.typeAlias, 'referenceTaxonomy') %}
+                                            {% for tagsField in tagsFields %}
+                                                {% for tag in tagsField %}
+                                                    {% if tag.value %}
+                                                        <a href="{{ path('teebb_taxonomy_contents',{slug:tag.value.slug }) }}"
+                                                           class="teebb-bg text-secondary badge bg-light small">{{ tag.value.term }}</a>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+
+                                    <p class="lead text-secondary">
+                                        {{ macro.getContentSummary(content, 'content', content.typeAlias) }}
+                                    </p>
+
+                                    <a href="{{ path('teebb_content_show', {slug: content.slug}) }}" class="btn btn-outline-dark">Read More →</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+
+                    {# 页码 #}
+                    {% if paginator.haveToPaginate %}
+                        <div class="my-3">
+                            {{ pagerfanta(paginator, 'twitter_bootstrap4_translated') }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="col-md-4 pl-lg-4">
+                    <div class="search pb-4">
+                        <div class="input-icon">
+                            <input type="text" class="form-control form-control-rounded" placeholder="Search…">
+                            <span class="input-icon-addon">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                     viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                     stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <circle cx="10" cy="10" r="7"></circle>
+                                    <line x1="21" y1="21" x2="15" y2="15"></line>
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="category-list pb-4">
+                        <h3 class="mb-3">博客分类</h3>
+                        <div class="list-group list-group-flush">
+                            <a href="#" class="list-group-item list-group-item-action py-3 h4 mb-0 active">所有博客</a>
+                            <a href="#" class="list-group-item list-group-item-action py-3 h4 mb-0">动态</a>
+                            <a href="#" class="list-group-item list-group-item-action py-3 h4 mb-0">技术</a>
+                        </div>
+                    </div>
+                    <div class="lasted-blog pb-4">
+                        <h3 class="mb-3">精选内容</h3>
+                        <div class="bg-light p-3 mb-3">
+                            <div class="row row-0">
+                                <div class="col-4">
+                                    <img src="assets/images/brand-case.jpg" class="w-100 object-cover"
+                                         alt="Card side image">
+                                </div>
+                                <div class="col-8">
+                                    <div class="card-body">
+                                        <h4><a href="#" class="text-dark">Card with left side image</a></h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-light p-3 mb-3">
+                            <div class="row row-0">
+                                <div class="col-4">
+                                    <img src="assets/images/brand-case.jpg" class="w-100 object-cover"
+                                         alt="Card side image">
+                                </div>
+                                <div class="col-8">
+                                    <div class="card-body">
+                                        <h4><a href="#" class="text-dark">Card with left side image</a></h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-light p-3 mb-3">
+                            <div class="row row-0">
+                                <div class="col-4">
+                                    <img src="assets/images/brand-case.jpg" class="w-100 object-cover"
+                                         alt="Card side image">
+                                </div>
+                                <div class="col-8">
+                                    <div class="card-body">
+                                        <h4><a href="#" class="text-dark">Card with left side image</a></h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-light p-3 mb-3">
+                            <div class="row row-0">
+                                <div class="col-4">
+                                    <img src="assets/images/brand-case.jpg" class="w-100 object-cover"
+                                         alt="Card side image">
+                                </div>
+                                <div class="col-8">
+                                    <div class="card-body">
+                                        <h4><a href="#" class="text-dark">Card with left side image</a></h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{# {{ type.label }} #}
+{# {{ dump() }} #}
+{# <ul> #}
+
+{# {% for content in paginator %} #}
+{# <li> #}
+{# <h1>{{ content.title }}</h1> #}
+{# </li> #}
+{# {% else %} #}
+{# {{ 'It is empty.'|trans }} #}
+{# {% endfor %} #}
+{# </ul> #}
+
+
