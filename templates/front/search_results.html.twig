@@ -1,35 +1,9 @@
-{% set bundle = entity_type.bundle %}
-{% import '@TeebbCore/macros.html.twig' as macro %}
-
 {% extends 'base.html.twig' %}
 
-{% block title %}
-    {{ type.label }}
-{% endblock %}
-
-{% block list_page_title %}
-    <section id="topTitle" class="bg-light">
-        <div class="container text-center">
-            <div class="row pt-4">
-                <div class="col-12">
-                    <h1 class="font-weight-bold normal-title text-muted">
-                        {{ type.label }}
-                    </h1>
-                </div>
-            </div>
-            <div class="row pb-4">
-                <div class="col-12">
-                    <p class="lead text-muted font-weight-normal">
-                        “不作恶 爱成长”
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-{% endblock %}
+{% import '@TeebbCore/macros.html.twig' as macro %}
 
 {% block content %}
-    <section id="blogList">
+    <section id="searchList">
         <div class="container">
             <div class="row py-5 justify-content-between">
 
@@ -45,3 +19,27 @@
     </section>
 {% endblock %}
 
+{% block title %}
+    搜索 "{{ keyword }}" 的结果
+{% endblock %}
+
+{% block list_page_title %}
+    <section id="topTitle" class="bg-light">
+        <div class="container text-center">
+            <div class="row pt-4">
+                <div class="col-12">
+                    <h1 class="font-weight-bold normal-title text-muted">
+                        搜索 "{{ keyword }}" 的结果
+                    </h1>
+                </div>
+            </div>
+            <div class="row pb-4">
+                <div class="col-12">
+                    <p class="lead text-muted font-weight-normal">
+                        “不作恶 爱成长”
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

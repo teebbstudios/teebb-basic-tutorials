@@ -1,0 +1,68 @@
+{% import '@TeebbCore/macros.html.twig' as macro %}
+
+{% for content in paginator %}
+    <div class="card border-0 mb-4">
+        {% set postImages = get_specify_type_field(content, 'content', content.typeAlias, 'referenceImage') %}
+
+        {% for imageFieldData in postImages %}
+            {% if loop.first %}
+                {% if imageFieldData[0].value %}
+                    <a href="{{ path('teebb_content_show', {slug: content.slug}) }}">
+                        {% set imagePath = imageFieldData[0].value.filePath %}
+                        <img src={{ imagePath|imagine_filter('list_poster') }} alt="{{ content.title }}">
+                    </a>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+
+        <div class="blog-summary row p-4">
+            <div class="col-2 text-center">
+                <time datetime="{{ content.createdAt|date('Y-m-d H:i:s') }}">
+                    <span class="second-title mb-0 text-secondary font-weight-bold d-block">{{ content.createdAt|date('m/d') }}</span>
+                    <span class="text-secondary d-block">{{ content.createdAt|date('Y') }}</span>
+                </time>
+                {% if content.boolTop %}
+                    <span class="badge bg-red small">TOP</span>
+                {% endif %}
+            </div>
+            <div class="col align-items-center">
+                <h2 class="second-title mb-0">
+                    <a href="#" class="text-black">{{ content.title }}</a>
+                </h2>
+                <div class="author-category py-2 d-flex justify-content-between align-items-center">
+                    <div class="author">
+                        <a href="#" class="d-flex align-items-center text-secondary p-0">
+                            {{ macro.getAvatar(content.author, 'avatar-sm mr-2') }}
+                            By {{ content.author.username }}
+                        </a>
+                    </div>
+                    <div class="blog-cate">
+                        {% set tagsFields = get_specify_type_field(content, 'content', content.typeAlias, 'referenceTaxonomy') %}
+                        {% for tagsField in tagsFields %}
+                            {% for tag in tagsField %}
+                                {% if tag.value %}
+                                    <a href="{{ path('teebb_taxonomy_contents',{slug:tag.value.slug }) }}"
+                                       class="teebb-bg text-secondary badge bg-light small">{{ tag.value.term }}</a>
+                                {% endif %}
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <p class="lead text-secondary">
+                    {{ macro.getContentSummary(content, 'content', content.typeAlias) }}
+                </p>
+
+                <a href="{{ path('teebb_content_show', {slug: content.slug}) }}" class="btn btn-outline-dark">Read More
+                    →</a>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+
+{# 页码 #}
+{% if paginator.haveToPaginate %}
+    <div class="my-3">
+        {{ pagerfanta(paginator, 'twitter_bootstrap4_translated') }}
+    </div>
+{% endif %}
