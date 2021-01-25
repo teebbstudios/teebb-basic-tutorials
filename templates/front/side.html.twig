@@ -2,80 +2,23 @@
     {{ sonata_block_render({type:'teebb.core.block.search'}, {
         route: 'search'
     }) }}
-    {#                        <div class="input-icon">#}
-    {#                            <input type="text" class="form-control form-control-rounded" placeholder="Search…">#}
-    {#                            <span class="input-icon-addon">#}
-    {#                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"#}
-    {#                                     viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"#}
-    {#                                     stroke-linecap="round" stroke-linejoin="round">#}
-    {#                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>#}
-    {#                                    <circle cx="10" cy="10" r="7"></circle>#}
-    {#                                    <line x1="21" y1="21" x2="15" y2="15"></line>#}
-    {#                                </svg>#}
-    {#                            </span>#}
-    {#                        </div>#}
+
 </div>
 <div class="category-list pb-4">
-    <h3 class="mb-3">博客分类</h3>
+    <h3 class="mb-3">动态分类</h3>
     <div class="list-group list-group-flush">
-        <a href="#" class="list-group-item list-group-item-action py-3 h4 mb-0 active">所有博客</a>
-        <a href="#" class="list-group-item list-group-item-action py-3 h4 mb-0">动态</a>
-        <a href="#" class="list-group-item list-group-item-action py-3 h4 mb-0">技术</a>
+        {{ sonata_block_render({type:'teebb.core.block.contents'}, {
+            entity_class: 'Teebb\\CoreBundle\\Entity\\Taxonomy',
+            criteria: {taxonomyType: 'news_tags'},
+            template: 'blocks/side_terms.html.twig'
+        }) }}
     </div>
 </div>
 <div class="lasted-blog pb-4">
     <h3 class="mb-3">精选内容</h3>
-    <div class="bg-light p-3 mb-3">
-        <div class="row row-0">
-            <div class="col-4">
-                <img src="assets/images/brand-case.jpg" class="w-100 object-cover"
-                     alt="Card side image">
-            </div>
-            <div class="col-8">
-                <div class="card-body">
-                    <h4><a href="#" class="text-dark">Card with left side image</a></h4>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="bg-light p-3 mb-3">
-        <div class="row row-0">
-            <div class="col-4">
-                <img src="assets/images/brand-case.jpg" class="w-100 object-cover"
-                     alt="Card side image">
-            </div>
-            <div class="col-8">
-                <div class="card-body">
-                    <h4><a href="#" class="text-dark">Card with left side image</a></h4>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="bg-light p-3 mb-3">
-        <div class="row row-0">
-            <div class="col-4">
-                <img src="assets/images/brand-case.jpg" class="w-100 object-cover"
-                     alt="Card side image">
-            </div>
-            <div class="col-8">
-                <div class="card-body">
-                    <h4><a href="#" class="text-dark">Card with left side image</a></h4>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="bg-light p-3 mb-3">
-        <div class="row row-0">
-            <div class="col-4">
-                <img src="assets/images/brand-case.jpg" class="w-100 object-cover"
-                     alt="Card side image">
-            </div>
-            <div class="col-8">
-                <div class="card-body">
-                    <h4><a href="#" class="text-dark">Card with left side image</a></h4>
-                </div>
-            </div>
-        </div>
-    </div>
+    {{ sonata_block_render({type: 'teebb.core.block.contents'}, {
+        criteria: {boolTop: true},
+        template: 'blocks/side_contents.html.twig'
+    }) }}
 
 </div>
