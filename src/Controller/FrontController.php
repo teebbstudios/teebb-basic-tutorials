@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Teebb\CoreBundle\Entity\Content;
+use Teebb\CoreBundle\Entity\Taxonomy;
 use Teebb\CoreBundle\Repository\BaseContentRepository;
 
 class FrontController extends AbstractController
@@ -39,7 +40,7 @@ class FrontController extends AbstractController
             $criteria = ['title' => '%' . $title . '%'];
         }
 
-        /**@var Pagerfanta $paginator**/
+        /**@var Pagerfanta $paginator * */
         $paginator = $baseContentRepo->createPaginator($criteria, ['id' => 'DESC']);
         $paginator->setMaxPerPage($limit);
         $paginator->setCurrentPage($page);
@@ -49,4 +50,15 @@ class FrontController extends AbstractController
             'paginator' => $paginator
         ]);
     }
+
+    /**
+     * @Route("/course/{slug}", name="course-list")
+     */
+    public function courseListAction(Taxonomy $taxonomy): Response
+    {
+        return $this->render('front/course_list.html.twig', [
+            'course' => $taxonomy
+        ]);
+    }
+
 }

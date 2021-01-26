@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <section id="coursesList">
+        <div class="container">
+            <div class="row py-4 py-lg-5">
+                <div class="col-lg-6">
+                    <div class="course-description-wrapper">
+                        <div class="position-relative">
+                            {% set imageFields = get_specify_type_field(course, 'taxonomy', course.taxonomyType, 'referenceImage') %}
+                            {% for imageFieldData in imageFields %}
+                                {% if loop.first %}
+                                    {% if imageFieldData[0].value %}
+                                        {% set imagePath = imageFieldData[0].value.filePath %}
+                                        <img src="{{ imagePath|imagine_filter('list_poster') }}" class="w-100 object-cover" alt="{{ course.term }}">
+                                    {% else %}
+                                        <div class="skeleton-image"></div>#}
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <div class="course-description">
+                            <h2 class="py-3 second-title border-bottom">您能学习到什么？</h2>
+                            <div class="learn-what py-3">
+                                <p class="lead font-weight-light">
+                                    {% set course_infos = get_specify_type_field(course, 'taxonomy', course.taxonomyType, 'textFormatSummary') %}
+                                    {% for course_info in course_infos %}
+                                        {% if loop.first %}
+                                            {% if course_info[0].value %}
+                                                {{ course_info[0].value|raw }}
+                                            {% else %}
+                                                这里空空如也，编辑稍后会添加内容。😁️
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endfor %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-lg-6">
+                    <div class="course-play-list shadow">
+                        <div class="list-group border-left-0 border-right-0 rounded-0">
+                            {{ sonata_block_render({type:'teebb.core.block.contents_in_taxonomy'}, {
+                                get_children: false,
+                                taxonomy_slug: course.slug,
+                                bundle: 'content',
+                                template: 'blocks/course_list.html.twig',
+                                order: {id: 'ASC'}
+                            }) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block title %}
+    {{ course.term }}
+{% endblock %}
+
+{% block banner_content %}
+    <div class="container text-center">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 my-3 my-md-5">
+                <h1 class="font-weight-bold normal-title text-white">
+                    {{ course.term }}
+                </h1>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

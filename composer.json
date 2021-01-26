@@ -50,7 +50,8 @@
         "symfony/validator": "^5.0",
         "symfony/web-link": "^5.0",
         "symfony/yaml": "^5.0",
-        "teebbstudios/core-bundle": "^0.1.0"
+        "teebbstudios/core-bundle": "^0.1.0",
+        "twig/intl-extra": "^3.2"
     },
     "require-dev": {
         "symfony/debug-pack": "*",
